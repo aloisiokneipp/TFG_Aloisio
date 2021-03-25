@@ -1,0 +1,43 @@
+Sistema web de gestão de perfis
+	usuarios
+		- email
+   		- senha
+		- nome
+		- tipo (administrador, comum, gestor)
+		
+
+	ambientes
+		- descrição
+		- localizacao (casa, apartamento, escritório, loja, …)
+		- illuminacao
+			- estágios (fraco, médio, forte)
+			- usar dimmer
+			- lâmpadas devem ser dimerizadas 
+		- climatização
+			- modos (inverno, verão, ventilar, secar)
+			- temperatura
+
+
+	perfil\_climatizacao (chave-primaria é usuario-ambiente-horario-modo)
+		- usuario
+		- ambiente
+		- horário (manhã, tarde, noite)
+		- modo
+		- temperatura
+
+
+	Entraram pessoas no ambiente:
+		usuario1 - 20
+		usuario2 - 26
+
+	- Situações
+		1) um usuário: sistema configura/adapta para o perfil do usuário
+		2) dois usuários: sistema faz a média da temperatura e configura/adapta o arcondicionado
+		3) n usuários: 	
+			3.1) faz uma eleição e seleciona a temperatura mais preferida
+			3.2) se os n usuários possuirem perfis de temperaturas diferentes entre si,
+                                 o sistema faz a média
+
+
+	- Sistema Web gera webservice do banco que o raspberry consome, para poder controlar
+           usuários e perfis (programar o raspberry de tempos em tempos acessar o webservice)

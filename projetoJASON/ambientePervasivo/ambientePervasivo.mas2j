@@ -1,0 +1,12 @@
+MAS ambientePervasivo {
+
+	infrastructure: Jade
+
+	environment: Ambiente
+
+	agents:
+		agent1 sample_agent;
+
+	aslSourcePath:
+		"src/asl";
+}
