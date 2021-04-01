@@ -10,7 +10,7 @@ Sistema web de gestão de perfis
 		- descrição
 		- localizacao (casa, apartamento, escritório, loja, …)
 		- illuminacao
-			- estágios (fraco, médio, forte)
+			- nível (fraco, médio, forte)
 			- usar dimmer
 			- lâmpadas devem ser dimerizadas 
 		- climatização
@@ -18,7 +18,7 @@ Sistema web de gestão de perfis
 			- temperatura
 
 
-	perfil\_climatizacao (chave-primaria é usuario-ambiente-horario-modo)
+	perfil_climatizacao (chave-primaria é usuario-ambiente-horario-modo)
 		- usuario
 		- ambiente
 		- horário (manhã, tarde, noite)
