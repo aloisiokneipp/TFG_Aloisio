@@ -1,0 +1,20 @@
+MAS ambientePervasivo3 {
+
+	infrastructure: Centralised
+
+	environment: Casa1
+
+	agents:
+		quarto1_iluminacao iluminacao;
+		quarto1_climatizacao climatizacao;
+		
+		alessandro usuario;
+		alexandre usuario;
+		aloisio usuario;
+		reiner usuario;
+		ricardo usuario;
+		
+
+	aslSourcePath:
+		"src/asl";
+}

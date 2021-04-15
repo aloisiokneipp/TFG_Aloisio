@@ -1,4 +1,4 @@
-// Environment code for project ambientePervasivo
+// Environment code for project ambientePervasivo3
 
 import jason.asSyntax.*;
 import jason.environment.*;
@@ -6,20 +6,19 @@ import jason.asSyntax.parser.*;
 
 import java.util.logging.*;
 
-public class Ambiente extends Environment {
+public class Casa1 extends Environment {
 
-    private Logger logger = Logger.getLogger("ambientePervasivo."+Ambiente.class.getName());
+    private Logger logger = Logger.getLogger("ambientePervasivo3."+Casa1.class.getName());
 
     /** Called before the MAS execution with the args informed in .mas2j */
     @Override
     public void init(String[] args) {
         super.init(args);
-        addPercept(Literal.parseLiteral("percept(demo)"));
-//        try {
-//			
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
+        try {
+			addPercept(ASSyntax.parseLiteral("percept(demo)"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
     }
 
     @Override
