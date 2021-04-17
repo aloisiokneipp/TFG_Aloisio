@@ -5,14 +5,11 @@ MAS ambientePervasivo3 {
 	environment: Casa1
 
 	agents:
-		quarto1_iluminacao iluminacao;
-		quarto1_climatizacao climatizacao;
-		
-		alessandro usuario;
-		alexandre usuario;
-		aloisio usuario;
-		reiner usuario;
-		ricardo usuario;
+		//peca1 - quarto de dormir		
+		peca1_iluminacao;
+		peca1_climatizacao;
+				
+		aloisio;
 		
 
 	aslSourcePath:

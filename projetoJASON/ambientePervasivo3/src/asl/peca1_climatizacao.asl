@@ -9,3 +9,7 @@
 /* Plans */
 
 +!start : true <- .print("Sou um agente de climatização").
+
+
++peca1(Usuario): true
+	<- .print("Notei que ", Usuario, " entrou no recinto.").
