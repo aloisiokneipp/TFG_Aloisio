@@ -1,4 +1,4 @@
-// Agent climatizacao in project ambientePervasivo3
+// Agent peca2_climatizacao in project ambientePervasivo3
 
 /* Initial beliefs and rules */
 
@@ -11,9 +11,8 @@
 +!start : true <- .print("Sou um agente de climatizacao").
 
 
-+peca1(Usuario): true
++peca2(Usuario): true
 	<- .print("Notei que ", Usuario, " entrou no recinto.");
-	   .wait(300);
-	   ?casa1_peca1_climatizacao(Estacao,Turno,Temperatura);
+		.wait(300);
+	   ?casa1_peca2_climatizacao(Estacao,Turno,Temperatura);
 	   configurar(Temperatura).
-	   

@@ -1,4 +1,4 @@
-// Agent iluminacao in project ambientePervasivo3
+// Agent peca2_iluminacao in project ambientePervasivo3
 
 /* Initial beliefs and rules */
 
@@ -11,5 +11,5 @@
 +!start : true <- .print("Sou um agente de iluminacao").
 
 
-+peca1(Usuario): true
++peca2(Usuario): true
 	<- .print("Notei que ", Usuario, " entrou no recinto.").
