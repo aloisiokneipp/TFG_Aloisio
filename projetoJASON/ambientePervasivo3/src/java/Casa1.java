@@ -12,28 +12,59 @@ import java.util.logging.*;
 public class Casa1 extends Environment {
 
     private Logger logger = Logger.getLogger("ambientePervasivo3."+Casa1.class.getName());
-
+    
+    //definindo a peca.... vem do servidor .... quarto, sala, escrit�rio
+	public List<String> listaPecas = new LinkedList<String>(); //populada do servidor
+	
+	//definindo o usuario.... vem do servidor .... alosio, alexandre, reiner ou ricardo
+	public List<String> listaUsuarios = new LinkedList<String>();
+	
+	public StringBuffer pecaAtual = new StringBuffer();
+	
+	public String usuarioSorteado;
+	
+	private void capturaUsuarioDoServidor(List<String> listaUsuarios) {
+		listaUsuarios.add("aloisio"); //nome tratado, capturado primeiro nome e transformado em minusculo
+    	listaUsuarios.add("alexandre"); //nome tratado, capturado primeiro nome e transformado em minusculo
+	}
+	
     private String sorteiaUsuarioPeca() {
     	Random gerador = new Random();
-    	StringBuffer peca = new StringBuffer();
-    	peca.append("peca");
+    	StringBuffer pecaSorteada = new StringBuffer();
     	
-    	//definindo a peca.... vem do servidor .... quarto, sala, escritório
-    	List<String> listaPecas = new LinkedList<String>(); //populada do servidor
+    	pecaSorteada.append("peca");  	
+    	pecaAtual.append("peca");
     	
     	listaPecas.add("Quarto de Dormir");
     	listaPecas.add("Escritorio"); 
     	
     	int numero = gerador.nextInt(listaPecas.size())+1;
+    	pecaSorteada.append(numero+"(");
+     	pecaAtual.append(numero+"(");
+   	
+     	capturaUsuarioDoServidor(listaUsuarios);
+     	
+    	usuarioSorteado = listaUsuarios.get(gerador.nextInt(listaUsuarios.size()));
     	
-    	peca.append(numero+"(");
+    	pecaSorteada.append(usuarioSorteado+")");
     	
-    	//definindo o usuario.... vem do servidor .... alosio, alexandre, reiner ou ricardo
-    	List<String> listaUsuarios = new LinkedList<String>();
-    	listaUsuarios.add("aloisio"); //nome tratado, capturado primeiro nome e transformado em minúsculo
-    	listaUsuarios.add("alexandre"); //nome tratado, capturado primeiro nome e transformado em minúsculo
-    	//listaUsuarios.add("alexandre"); //nome tratado, capturado primeiro nome e transformado em minúsculo
-    	String usuario = listaUsuarios.get(gerador.nextInt(listaUsuarios.size()));
+    	return pecaSorteada.toString();
+    }
+    
+    private String sorteiaUsuarioNaMesmaPeca() {
+    	Random gerador = new Random();
+    	StringBuffer peca = new StringBuffer();
+    	peca.append(pecaAtual);
+    	
+    	String usuario;
+    	int contador = 0;
+    	do {
+    		usuario = listaUsuarios.get(gerador.nextInt(listaUsuarios.size()));
+    		contador++;
+    		if (contador == 10) {
+    			return "erro";
+    		}
+    	} while (usuario.equals(usuarioSorteado) );
     	
     	peca.append(usuario+")");
     	return peca.toString();
@@ -56,8 +87,7 @@ public class Casa1 extends Environment {
     		case 3: //primavera
 	    			contexto.append("primavera,");
 	    			break;
-    	}
-    	
+    	}	
     	switch (gerador.nextInt(3)) {
 			case 0: //manha
 					contexto.append("manha");
@@ -69,7 +99,6 @@ public class Casa1 extends Environment {
 	    			contexto.append("noite");
 					break;
 		}
-    	
     	contexto.append(")");
     	return contexto.toString();
     }
@@ -112,7 +141,16 @@ public class Casa1 extends Environment {
         	
             System.out.println("[AMBIENTE FISICO] " + agName + " configurando a temperatura em " + temperatura + " graus");
             //acionar o rele desta pe�a
-       }
+        }
+        try { 
+        	String usuario = sorteiaUsuarioNaMesmaPeca();
+        	if (!usuario.equals("erro")) {
+        		addPercept(ASSyntax.parseLiteral(usuario));
+        	}
+		} catch (ParseException e) {
+			
+		}
+		
         return true; // the action was executed with success
     }
 

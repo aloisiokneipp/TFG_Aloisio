@@ -30,7 +30,6 @@ casa1_peca2_iluminacao(forte,manha).
 casa1_peca2_iluminacao(forte,tarde).
 casa1_peca2_iluminacao(forte,noite).
 
-
 /*initials plans */
 +peca1(Agente): Agente == aloisio & contexto(Estacao,Turno) 
 	<- 
