@@ -26,7 +26,7 @@ casa1_peca2_iluminacao(media,noite).
 /*initials plans */
 +peca1(alexandre): contexto(Estacao,Turno) 
 	<- 
-		.print("vou avisar a peca1 o meu perfil");
+		.print("avisando peca1 o meu perfil");
 		 ?casa1_peca1_climatizacao(Estacao, Turno, Temperatura);
 		.send(peca1_climatizacao,tell, casa1_peca1_climatizacao(Estacao,Turno,Temperatura));
 		?casa1_peca1_iluminacao(Estagio,Turno);
@@ -38,7 +38,7 @@ casa1_peca2_iluminacao(media,noite).
 		
 +peca2(alexandre): contexto(Estacao,Turno) 
 	<- 
-		.print("vou avisar a peca2 o meu perfil");
+		.print("avisando peca2 o meu perfil");
 		 ?casa1_peca2_climatizacao(Estacao, Turno, Temperatura);
 		.send(peca2_climatizacao,tell, casa1_peca2_climatizacao(Estacao,Turno,Temperatura));
 		?casa1_peca2_iluminacao(Estagio,Turno); 

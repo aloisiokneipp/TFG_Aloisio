@@ -27,6 +27,10 @@ public class Casa1 extends Environment {
 		listaUsuarios.add("aloisio"); //nome tratado, capturado primeiro nome e transformado em minusculo
     	listaUsuarios.add("alexandre"); //nome tratado, capturado primeiro nome e transformado em minusculo
 	}
+	private void capturaPecasDoServidor(List<String> listaPecas) {
+		listaPecas.add("Quarto de Dormir");
+    	listaPecas.add("Escritorio");
+	}
 	
     private String sorteiaUsuarioPeca() {
     	Random gerador = new Random();
@@ -34,9 +38,8 @@ public class Casa1 extends Environment {
     	
     	pecaSorteada.append("peca");  	
     	pecaAtual.append("peca");
-    	
-    	listaPecas.add("Quarto de Dormir");
-    	listaPecas.add("Escritorio"); 
+    	 
+    	capturaPecasDoServidor(listaPecas);
     	
     	int numero = gerador.nextInt(listaPecas.size())+1;
     	pecaSorteada.append(numero+"(");
