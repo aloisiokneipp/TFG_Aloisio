@@ -129,11 +129,32 @@ public class Casa1 extends Environment {
     	
     	return temperatura;
     }
+    
+    private String extrairEstagioIluminacao(String acao) {
+    	String iluminacao = "fraca";
+    	
+    	int inicio = acao.indexOf("(");
+    	int fim = acao.indexOf(")");
+    	
+    	iluminacao = acao.substring(inicio+1, fim);
+    	
+    	return iluminacao;
+    }
         
     @Override
     public boolean executeAction(String agName, Structure action) {
        // logger.info("executing: "+action+", but not implemented!");
-    	int temperatura = extrairTemperatura(action.toString());
+    	int temperatura = 0;
+    	String iluminacao = "fraca";
+    	
+    	if (action.toString().contains("Temperatura")) {
+    		temperatura = extrairTemperatura(action.toString());
+    	}
+    	if (action.toString().contains("Iluminacao")) {
+    		iluminacao = extrairEstagioIluminacao(action.toString());
+    	}
+    	
+    	
         if (agName.equals("peca1_climatizacao")) {
         	
              System.out.println("[AMBIENTE FISICO] " + agName + " configurando a temperatura em " + temperatura + " graus");
@@ -145,6 +166,19 @@ public class Casa1 extends Environment {
             System.out.println("[AMBIENTE FISICO] " + agName + " configurando a temperatura em " + temperatura + " graus");
             //acionar o rele desta peça
         }
+        
+        if (agName.equals("peca1_iluminacao")) {
+        	
+            System.out.println("[AMBIENTE FISICO] " + agName + " configurando a iluminacao como " + iluminacao);
+            //acionar o rele desta peça
+       }
+       
+       if (agName.equals("peca2_iluminacao")) {
+       	
+           System.out.println("[AMBIENTE FISICO] " + agName + " configurando a iluminacao como " + iluminacao);
+           //acionar o rele desta peça
+       }
+        
         try { 
         	String usuario = sorteiaUsuarioNaMesmaPeca();
         	if (!usuario.equals("erro")) {

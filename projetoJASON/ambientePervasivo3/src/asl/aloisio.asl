@@ -11,47 +11,47 @@
 
 //CLIMATIZACAO
 //peca1 - quarto de dormir
-casa1_peca1_climatizacao(verao, noite, 24).
-casa1_peca1_climatizacao(verao, tarde, 18).
-casa1_peca1_climatizacao(inverno, noite, 26).
-casa1_peca1_climatizacao(inverno, tarde, 21).
+casa1_peca1_climatizacao(aloisio,verao, noite, 24).
+casa1_peca1_climatizacao(aloisio,verao, tarde, 18).
+casa1_peca1_climatizacao(aloisio,inverno, noite, 26).
+casa1_peca1_climatizacao(aloisio,inverno, tarde, 21).
 
 //peca2 - escritorio
-casa1_peca2_climatizacao(verao, tarde, 22).
-casa1_peca2_climatizacao(inverno, tarde, 22).
+casa1_peca2_climatizacao(aloisio,verao, tarde, 22).
+casa1_peca2_climatizacao(aloisio,inverno, tarde, 22).
 
 //ILUMINACAO
 //peca1 - quarto de dormir
-casa1_peca1_iluminacao(fraca,noite).
-casa1_peca1_iluminacao(media,tarde).
+casa1_peca1_iluminacao(aloisio,fraca,noite).
+casa1_peca1_iluminacao(aloisio,media,tarde).
 
 //peca2 - escritorio
-casa1_peca2_iluminacao(forte,manha).
-casa1_peca2_iluminacao(forte,tarde).
-casa1_peca2_iluminacao(forte,noite).
+casa1_peca2_iluminacao(aloisio,forte,manha).
+casa1_peca2_iluminacao(aloisio,forte,tarde).
+casa1_peca2_iluminacao(aloisio,forte,noite).
 
 /*initials plans */
-+peca1(Agente): Agente == aloisio & contexto(Estacao,Turno) 
++peca1(Usuario): Usuario == aloisio & contexto(Estacao,Turno) 
 	<- 
-		.print("avisando peca1 o meu perfil");
-		 ?casa1_peca1_climatizacao(Estacao, Turno, Temperatura);
-		.send(peca1_climatizacao,tell, casa1_peca1_climatizacao(Estacao,Turno,Temperatura));
-		?casa1_peca1_iluminacao(Estagio,Turno);
-		.send(peca1_iluminacao,tell, casa1_peca1_iluminacao(Estagio,Turno)).
-
-+peca1(Agente): Agente == aloisio & contexto(Estacao,Turno) 
+		?casa1_peca1_climatizacao(Usuario,Estacao, Turno, Temperatura);
+		?casa1_peca1_iluminacao(Usuario,Estagio,Turno);
+		.print("avisando peca1 o meu perfil....Temperatura: ", Temperatura, ". Iluminação: ", Estagio);
+		.send(peca1_climatizacao,tell, casa1_peca1_climatizacao(Usuario, Estacao,Turno,Temperatura));
+		.send(peca1_iluminacao,tell, casa1_peca1_iluminacao(Usuario, Estagio,Turno)).
+		
++peca1(Usuario): Usuario == aloisio & contexto(Estacao,Turno) 
 	<- 
 		.print("Nao tenho perfil para esta estacao ou turno").
-
-+peca2(Agente): Agente == aloisio & contexto(Estacao,Turno) 
+		
++peca2(Usuario): Usuario == aloisio & contexto(Estacao,Turno) 
 	<- 
-		.print("avisando peca2 o meu perfil");
-		 ?casa1_peca2_climatizacao(Estacao, Turno, Temperatura);
-		.send(peca2_climatizacao,tell, casa1_peca2_climatizacao(Estacao,Turno,Temperatura));
-		?casa1_peca2_iluminacao(Estagio,Turno); 
-		.send(peca2_iluminacao,tell, casa1_peca2_iluminacao(Estagio,Turno)).
-
-+peca2(Agente): Agente == aloisio & contexto(Estacao,Turno) 
+		?casa1_peca2_climatizacao(Usuario,Estacao, Turno, Temperatura);
+		?casa1_peca2_iluminacao(Usuario,Estagio,Turno);
+		.print("avisando peca2 o meu perfil....Temperatura: ", Temperatura, ". Iluminação: ", Estagio);
+		.send(peca2_climatizacao,tell, casa1_peca2_climatizacao(Usuario, Estacao,Turno,Temperatura));
+		.send(peca2_iluminacao,tell, casa1_peca2_iluminacao(Usuario, Estagio,Turno)).
+		
++peca2(Usuario): Usuario == aloisio & contexto(Estacao,Turno) 
 	<- 
 		.print("Nao tenho perfil para esta estacao ou turno").
 		
