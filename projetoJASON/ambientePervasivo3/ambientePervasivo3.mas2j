@@ -5,6 +5,7 @@ MAS ambientePervasivo3 {
 	environment: Casa1
 
 	agents:
+		ricardo;
 		alexandre;
 		aloisio;		
 		peca1_iluminacao;

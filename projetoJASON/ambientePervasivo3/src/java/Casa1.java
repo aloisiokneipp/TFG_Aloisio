@@ -2,12 +2,16 @@
 
 import jason.asSyntax.*;
 import jason.environment.*;
+import netscape.javascript.JSException;
+import netscape.javascript.JSObject;
 import jason.asSyntax.parser.*;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.*;
+
+
 
 class UsuarioPeca {
 	public String usuario;
@@ -36,9 +40,14 @@ public class Casa1 extends Environment {
 
 	public String usuarioSorteado;
 
+	public int quantidadeAcoesPeca1 = 0;
+	public int quantidadeAcoesPeca2 = 0;
+	
 	private void capturaUsuarioDoServidor(List<String> listaUsuarios) {
 		listaUsuarios.add("aloisio"); // nome tratado, capturado primeiro nome e transformado em minusculo
 		listaUsuarios.add("alexandre"); // nome tratado, capturado primeiro nome e transformado em minusculo
+		listaUsuarios.add("ricardo"); // nome tratado, capturado primeiro nome e transformado em minusculo
+		
 	}
 
 	private void capturaPecasDoServidor(List<String> listaPecas) {
@@ -77,7 +86,7 @@ public class Casa1 extends Environment {
 		do {
 			usuario = listaUsuarios.get(gerador.nextInt(listaUsuarios.size()));
 			contador++;
-			if (contador == 10) {
+			if (contador == 100) {
 				return "erro";
 			}
 		} while (usuario.equals(usuarioSorteado));
@@ -149,11 +158,11 @@ public class Casa1 extends Environment {
 	}
 
 	private int extrairTemperatura(String acao) {
-		int temperatura = 0;
+		double temperatura = 0;
 		int inicio = acao.indexOf("(");
 		int fim = acao.indexOf(")");
-		temperatura = Integer.parseInt(acao.substring(inicio + 1, fim));
-		return temperatura;
+		temperatura = Double.parseDouble(acao.substring(inicio + 1, fim));
+		return (int)temperatura;
 	}
 
 	private String extrairEstagioIluminacao(String acao) {
@@ -174,11 +183,8 @@ public class Casa1 extends Environment {
 
 	@Override
 	public boolean executeAction(String agName, Structure action) {
-		// logger.info("executing: "+action+", but not implemented!");
-
 		int temperatura = 0;
 		String iluminacao = "fraca";
-
 		if (action.toString().contains("Temperatura")) {
 			temperatura = extrairTemperatura(action.toString());
 		}
@@ -186,57 +192,61 @@ public class Casa1 extends Environment {
 			iluminacao = extrairEstagioIluminacao(action.toString());
 		}
 		if (agName.equals("peca1_climatizacao") && action.getFunctor().contains("configurarTemperatura")) {
-
 			System.out.println("[AMBIENTE FISICO] o arcondicionado, via relé de acionamento, representado por " + agName
 					+ " vai configurar a temperatura em " + temperatura + " graus");
+			quantidadeAcoesPeca1++;
+			
 			// acionar o rele desta peça
 		}
 		if (agName.equals("peca2_climatizacao") && action.getFunctor().contains("configurarTemperatura")) {
 			System.out.println("[AMBIENTE FISICO] o arcondicionado, via relé de acionamento, representado por " + agName
 					+ " vai configurar a temperatura em " + temperatura + " graus");
+			quantidadeAcoesPeca2++;
+			
 			// acionar o rele desta peça
 		}
 		if (agName.equals("peca1_iluminacao") && action.getFunctor().contains("configurarIluminacao")) {
 			System.out.println("[AMBIENTE FISICO] o sistema de iluminação, via relé de acionamento, representado por "
 					+ agName + " está configurando a iluminacao como " + iluminacao);
+			quantidadeAcoesPeca1++;
+			
 			// acionar o rele desta peça
 		}
-
 		if (agName.equals("peca2_iluminacao") && action.getFunctor().contains("configurarIluminacao")) {
-
 			System.out.println("[AMBIENTE FISICO] o sistema de iluminação, via relé de acionamento, representado por "
 					+ agName + " está configurando a iluminacao como " + iluminacao);
+			quantidadeAcoesPeca2++;
+			
 			// acionar o rele desta peça
 		}
-
-		try {
-			Thread.sleep(2000);
-			String usuario;
-			Random gerador = new Random();
-			switch (gerador.nextInt(2)) {
-			case 0:
-				// inserir um usuario numa peca
-				usuario = sorteiaUsuarioNaMesmaPeca();
-				if (!usuario.equals("erro")) {
-					addPercept(ASSyntax.parseLiteral(usuario));
-					// System.out.println("[AMBIENTE FISICO] um usuário vai entrar na peça");
+		if (quantidadeAcoesPeca1 == 2 || quantidadeAcoesPeca2 == 2) {
+			quantidadeAcoesPeca1 = 0;
+			quantidadeAcoesPeca2 = 0;
+			try {
+				Thread.sleep(2000);
+				String usuario;
+				Random gerador = new Random();
+				switch (gerador.nextInt(2)) {
+				case 0:
+					// inserir um usuario numa peca
+					usuario = sorteiaUsuarioNaMesmaPeca();
+					if (!usuario.equals("erro")) {
+						addPercept(ASSyntax.parseLiteral(usuario));
+						// System.out.println("[AMBIENTE FISICO] um usuário vai entrar na peça");
+					}
+					break;
+				case 1:
+					// retirar um usuario de uma peca
+					usuario = retiraUsuarioNaMesmaPeca();
+					if (!usuario.equals("erro")) {
+						removePercept(ASSyntax.parseLiteral(usuario));
+						System.out.println("[AMBIENTE FISICO] o usuario " + extrairUsuario(usuario)
+								+ " saiu da peca, mas suas configurações permaneceram....");
+					}
+					break;
 				}
-				break;
-			case 1:
-				// retirar um usuario de uma peca
-				usuario = retiraUsuarioNaMesmaPeca();
-				if (!usuario.equals("erro")) {
-					removePercept(ASSyntax.parseLiteral(usuario));
-					System.out.println("[AMBIENTE FISICO] o usuario " + extrairUsuario(usuario)
-							+ " saiu da peca, mas suas configurações permaneceram....");
-				}
-				break;
-			}
-
-		} catch (Exception e) {
-
+			} catch (Exception e) { }
 		}
-
 		return true; // the action was executed with success
 	}
 
