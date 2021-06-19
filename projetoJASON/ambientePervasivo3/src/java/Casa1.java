@@ -11,17 +11,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.*;
 
-
-
-class UsuarioPeca {
-	public String usuario;
-	public String peca;
-
-	public UsuarioPeca(String usuario, String peca) {
-		this.usuario = usuario;
-		this.peca = peca;
-	}
-}
+import ambientePervasivo3.Comunicacao;
 
 public class Casa1 extends Environment {
 
@@ -42,12 +32,16 @@ public class Casa1 extends Environment {
 
 	public int quantidadeAcoesPeca1 = 0;
 	public int quantidadeAcoesPeca2 = 0;
-	
+
+	public String endereco_arcondicionado = "http://192.168.1.121:8081/zeroconf/switch";
+	public String endereco_iluminacao1 = "http://192.168.1.122:8081/zeroconf/switch";
+	public String endereco_iluminacao2 = "http://192.168.1.123:8081/zeroconf/switch";
+
 	private void capturaUsuarioDoServidor(List<String> listaUsuarios) {
 		listaUsuarios.add("aloisio"); // nome tratado, capturado primeiro nome e transformado em minusculo
 		listaUsuarios.add("alexandre"); // nome tratado, capturado primeiro nome e transformado em minusculo
 		listaUsuarios.add("ricardo"); // nome tratado, capturado primeiro nome e transformado em minusculo
-		
+
 	}
 
 	private void capturaPecasDoServidor(List<String> listaPecas) {
@@ -162,7 +156,7 @@ public class Casa1 extends Environment {
 		int inicio = acao.indexOf("(");
 		int fim = acao.indexOf(")");
 		temperatura = Double.parseDouble(acao.substring(inicio + 1, fim));
-		return (int)temperatura;
+		return (int) temperatura;
 	}
 
 	private String extrairEstagioIluminacao(String acao) {
@@ -185,6 +179,7 @@ public class Casa1 extends Environment {
 	public boolean executeAction(String agName, Structure action) {
 		int temperatura = 0;
 		String iluminacao = "fraca";
+
 		if (action.toString().contains("Temperatura")) {
 			temperatura = extrairTemperatura(action.toString());
 		}
@@ -195,29 +190,45 @@ public class Casa1 extends Environment {
 			System.out.println("[AMBIENTE FISICO] o arcondicionado, via relé de acionamento, representado por " + agName
 					+ " vai configurar a temperatura em " + temperatura + " graus");
 			quantidadeAcoesPeca1++;
-			
+
 			// acionar o rele desta peça
+			Comunicacao.Sonoff(endereco_arcondicionado, "on", temperatura, null);
 		}
 		if (agName.equals("peca2_climatizacao") && action.getFunctor().contains("configurarTemperatura")) {
 			System.out.println("[AMBIENTE FISICO] o arcondicionado, via relé de acionamento, representado por " + agName
 					+ " vai configurar a temperatura em " + temperatura + " graus");
 			quantidadeAcoesPeca2++;
-			
+
 			// acionar o rele desta peça
+			Comunicacao.Sonoff(endereco_arcondicionado, "on", temperatura, null);
 		}
 		if (agName.equals("peca1_iluminacao") && action.getFunctor().contains("configurarIluminacao")) {
 			System.out.println("[AMBIENTE FISICO] o sistema de iluminação, via relé de acionamento, representado por "
 					+ agName + " está configurando a iluminacao como " + iluminacao);
 			quantidadeAcoesPeca1++;
-			
+
 			// acionar o rele desta peça
+			if (iluminacao.equals("forte")) {
+				Comunicacao.Sonoff(endereco_iluminacao1, "on", 0, iluminacao);
+				Comunicacao.Sonoff(endereco_iluminacao2, "on", 0, iluminacao);
+			} else if (iluminacao.equals("media")) {
+				Comunicacao.Sonoff(endereco_iluminacao1, "on", 0, iluminacao);
+				Comunicacao.Sonoff(endereco_iluminacao2, "off", 0, iluminacao);
+			}
 		}
 		if (agName.equals("peca2_iluminacao") && action.getFunctor().contains("configurarIluminacao")) {
 			System.out.println("[AMBIENTE FISICO] o sistema de iluminação, via relé de acionamento, representado por "
 					+ agName + " está configurando a iluminacao como " + iluminacao);
 			quantidadeAcoesPeca2++;
-			
+
 			// acionar o rele desta peça
+			if (iluminacao.equals("forte")) {
+				Comunicacao.Sonoff(endereco_iluminacao1, "on", 0, iluminacao);
+				Comunicacao.Sonoff(endereco_iluminacao2, "on", 0, iluminacao);
+			} else if (iluminacao.equals("media")) {
+				Comunicacao.Sonoff(endereco_iluminacao1, "off", 0, iluminacao);
+				Comunicacao.Sonoff(endereco_iluminacao2, "on", 0, iluminacao);
+			}
 		}
 		if (quantidadeAcoesPeca1 == 2 || quantidadeAcoesPeca2 == 2) {
 			quantidadeAcoesPeca1 = 0;
@@ -245,7 +256,8 @@ public class Casa1 extends Environment {
 					}
 					break;
 				}
-			} catch (Exception e) { }
+			} catch (Exception e) {
+			}
 		}
 		return true; // the action was executed with success
 	}
@@ -254,5 +266,15 @@ public class Casa1 extends Environment {
 	@Override
 	public void stop() {
 		super.stop();
+	}
+
+	class UsuarioPeca {
+		public String usuario;
+		public String peca;
+
+		public UsuarioPeca(String usuario, String peca) {
+			this.usuario = usuario;
+			this.peca = peca;
+		}
 	}
 }

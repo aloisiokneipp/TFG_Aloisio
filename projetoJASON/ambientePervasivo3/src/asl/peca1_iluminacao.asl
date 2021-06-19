@@ -36,7 +36,6 @@
        .print("A iluminação negociada foi ....", IluminacaoAtual);	  
        .wait(1000);
 	   configurarIluminacao(IluminacaoAtual).
-	   
 
 +!negociarIluminacao3(IluminacaoAtual,EstagioUsuario,EstagioUsuario2,EstagioUsuario3): EstagioUsuario == EstagioUsuario2 &
                                                                                       EstagioUsuario2 == EstagioUsuario3
@@ -47,3 +46,8 @@
 	   
 -peca1(Usuario): true
 	<- .print("o ", Usuario, " saiu daqui.... vou decidir se irei ou não desligar a iluminação").
+	
+	
+	
+	
+	
