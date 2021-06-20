@@ -23,11 +23,11 @@ casa1_peca2_climatizacao(ricardo,inverno, tarde, 22).
 //ILUMINACAO
 //peca1 - quarto de dormir
 casa1_peca1_iluminacao(ricardo,media,noite).
-casa1_peca1_iluminacao(ricardo,fraca,tarde).
+casa1_peca1_iluminacao(ricardo,forte,tarde).
 
 //peca2 - escritorio
 casa1_peca2_iluminacao(ricardo,media,manha).
-casa1_peca2_iluminacao(ricardo,media,tarde).
+casa1_peca2_iluminacao(ricardo,fraca,tarde).
 casa1_peca2_iluminacao(ricardo,media,noite).
 
 /*initials plans */

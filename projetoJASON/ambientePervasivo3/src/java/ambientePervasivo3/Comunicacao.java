@@ -11,7 +11,7 @@ public class Comunicacao {
 		try {
 			URL url = new URL(query_url);
 			HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
-			conexao.setConnectTimeout(500);
+			conexao.setConnectTimeout(100);
 			conexao.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 			conexao.setDoOutput(true);
 			conexao.setDoInput(true);

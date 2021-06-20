@@ -23,7 +23,7 @@ casa1_peca2_climatizacao(aloisio,inverno, tarde, 22).
 //ILUMINACAO
 //peca1 - quarto de dormir
 casa1_peca1_iluminacao(aloisio,fraca,noite).
-casa1_peca1_iluminacao(aloisio,media,tarde).
+casa1_peca1_iluminacao(aloisio,fraca,tarde).
 
 //peca2 - escritorio
 casa1_peca2_iluminacao(aloisio,forte,manha).

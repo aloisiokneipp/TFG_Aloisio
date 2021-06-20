@@ -16,7 +16,7 @@ casa1_peca2_climatizacao(alexandre,inverno, tarde, 20).
 //ILUMINACAO
 //peca1 - quarto de dormir
 casa1_peca1_iluminacao(alexandre,media,noite).
-casa1_peca1_iluminacao(alexandre,fraca,tarde).
+casa1_peca1_iluminacao(alexandre,media,tarde).
 
 //peca2 - escritorio
 casa1_peca2_iluminacao(alexandre,media,manha).

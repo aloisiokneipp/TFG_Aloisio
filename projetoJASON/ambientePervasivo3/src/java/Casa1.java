@@ -33,7 +33,8 @@ public class Casa1 extends Environment {
 	public int quantidadeAcoesPeca1 = 0;
 	public int quantidadeAcoesPeca2 = 0;
 
-	public String endereco_arcondicionado = "http://192.168.1.121:8081/zeroconf/switch";
+	public String endereco_arcondicionado = "http://192.168.1.120:8081/zeroconf/switch";
+	public String endereco_iluminacao3 = "http://192.168.1.121:8081/zeroconf/switch";
 	public String endereco_iluminacao1 = "http://192.168.1.122:8081/zeroconf/switch";
 	public String endereco_iluminacao2 = "http://192.168.1.123:8081/zeroconf/switch";
 
@@ -192,7 +193,7 @@ public class Casa1 extends Environment {
 			quantidadeAcoesPeca1++;
 
 			// acionar o rele desta peça
-			Comunicacao.Sonoff(endereco_arcondicionado, "on", temperatura, null);
+			//Comunicacao.Sonoff(endereco_arcondicionado, "on", temperatura, null);
 		}
 		if (agName.equals("peca2_climatizacao") && action.getFunctor().contains("configurarTemperatura")) {
 			System.out.println("[AMBIENTE FISICO] o arcondicionado, via relé de acionamento, representado por " + agName
@@ -200,7 +201,7 @@ public class Casa1 extends Environment {
 			quantidadeAcoesPeca2++;
 
 			// acionar o rele desta peça
-			Comunicacao.Sonoff(endereco_arcondicionado, "on", temperatura, null);
+			//Comunicacao.Sonoff(endereco_arcondicionado, "on", temperatura, null);
 		}
 		if (agName.equals("peca1_iluminacao") && action.getFunctor().contains("configurarIluminacao")) {
 			System.out.println("[AMBIENTE FISICO] o sistema de iluminação, via relé de acionamento, representado por "
@@ -211,9 +212,15 @@ public class Casa1 extends Environment {
 			if (iluminacao.equals("forte")) {
 				Comunicacao.Sonoff(endereco_iluminacao1, "on", 0, iluminacao);
 				Comunicacao.Sonoff(endereco_iluminacao2, "on", 0, iluminacao);
+				Comunicacao.Sonoff(endereco_iluminacao3, "off", 0, iluminacao);
 			} else if (iluminacao.equals("media")) {
 				Comunicacao.Sonoff(endereco_iluminacao1, "on", 0, iluminacao);
 				Comunicacao.Sonoff(endereco_iluminacao2, "off", 0, iluminacao);
+				Comunicacao.Sonoff(endereco_iluminacao3, "off", 0, iluminacao);
+			}else if (iluminacao.equals("fraca")) {
+				Comunicacao.Sonoff(endereco_iluminacao1, "off", 0, iluminacao);
+				Comunicacao.Sonoff(endereco_iluminacao2, "off", 0, iluminacao);
+				Comunicacao.Sonoff(endereco_iluminacao3, "on", 0, iluminacao);
 			}
 		}
 		if (agName.equals("peca2_iluminacao") && action.getFunctor().contains("configurarIluminacao")) {
@@ -225,16 +232,22 @@ public class Casa1 extends Environment {
 			if (iluminacao.equals("forte")) {
 				Comunicacao.Sonoff(endereco_iluminacao1, "on", 0, iluminacao);
 				Comunicacao.Sonoff(endereco_iluminacao2, "on", 0, iluminacao);
+				Comunicacao.Sonoff(endereco_iluminacao3, "off", 0, iluminacao);
 			} else if (iluminacao.equals("media")) {
 				Comunicacao.Sonoff(endereco_iluminacao1, "off", 0, iluminacao);
 				Comunicacao.Sonoff(endereco_iluminacao2, "on", 0, iluminacao);
+				Comunicacao.Sonoff(endereco_iluminacao3, "off", 0, iluminacao);
+			}else if (iluminacao.equals("fraca")) {
+				Comunicacao.Sonoff(endereco_iluminacao1, "off", 0, iluminacao);
+				Comunicacao.Sonoff(endereco_iluminacao2, "off", 0, iluminacao);
+				Comunicacao.Sonoff(endereco_iluminacao3, "on", 0, iluminacao);
 			}
 		}
 		if (quantidadeAcoesPeca1 == 2 || quantidadeAcoesPeca2 == 2) {
 			quantidadeAcoesPeca1 = 0;
 			quantidadeAcoesPeca2 = 0;
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(4000);
 				String usuario;
 				Random gerador = new Random();
 				switch (gerador.nextInt(2)) {
@@ -252,7 +265,7 @@ public class Casa1 extends Environment {
 					if (!usuario.equals("erro")) {
 						removePercept(ASSyntax.parseLiteral(usuario));
 						System.out.println("[AMBIENTE FISICO] o usuario " + extrairUsuario(usuario)
-								+ " saiu da peca, mas suas configurações permaneceram....");
+								+ " saiu da peca, mas suas configurações permaneceram....");		
 					}
 					break;
 				}
